@@ -222,7 +222,7 @@ void add_wizyta(Wizyty **head, Lekarz *head_l, Pacjent *head_p) {
     }
 
     print_lekarze(head_l);
-    printf("Wpisz ID wybranego lekarza: ");
+    printf("Wpisz ID wybranego lekarza: \n");
     scanf("%d", &target_l);
 
     Lekarz *curr_l = head_l;
@@ -258,11 +258,11 @@ void add_wizyta(Wizyty **head, Lekarz *head_l, Pacjent *head_p) {
 
     nowy->pacjent_id = target_p;
     nowy->lekarz_id = target_l;
-    printf("Data (DD.MM.RRRR): ");
+    printf("Data (DD.MM.RRRR): \n");
     scanf("%10s", nowy->date);
-    printf("Czas (HH:MM): ");
+    printf("Czas (HH:MM): \n");
     scanf("%6s", nowy->time);
-    printf("Czas trwania (w minutach): ");
+    printf("Czas trwania (w minutach): \n");
     scanf("%d", &nowy->duration);
     nowy->status = 0;
 
@@ -402,7 +402,102 @@ void load_wizyty(Wizyty **head) {
     }
     fclose(file);
 }
+void search_pacjent(Pacjent **head) {
+    if (*head == NULL) {
+        printf("Baza pusta;\n");
+        return;
+    };
+    printf("Wyszukiwanie pacjenta\n");
+    char search[20];
+    printf("Wprowadz numer telefona lub PESEL pacjenta: \n");
+    scanf("%19s", search);
 
+    Pacjent *current = *head;
+    bool found = false;
+    while (current != NULL) {
+        if (strcmp(current->pesel, search) == 0 || strcmp(current->phone, search) == 0) {
+            found = true;
+            printf("ID: %d\n", current->id);
+            printf("Name: %s\n", current->name);
+            printf("Surname: %s\n", current->surname);
+            printf("Pesel: %s\n", current->pesel);
+            printf("Birth date: %s\n", current->birth_date);
+            printf("Address: %s\n", current->address);
+            printf("Email: %s\n", current->email);
+            printf("Phone: %s\n", current->phone);
+            printf("Weight: %f\n", current->weight);
+            printf("Height: %f\n", current->height);
+        }
+        current = current->next;
+
+    }
+    if (!found) {
+        printf("Nie odnaleziono pacjenta z podanymi dannymi\n");
+    }
+}
+
+void search_lekarz(Lekarz **head) {
+    if (*head == NULL) {
+        printf("Baza pusta;\n");
+        return;
+    }
+    printf("Wyszukiwanie lekarz\n");
+    char search[20];
+    printf("Wprowadz numer PESEL lekarz: \n");
+    scanf("%19s", search);
+    Lekarz *current = *head;
+    bool found = false;
+    while (current != NULL) {
+        if (strcmp(current->pesel, search) == 0) {
+            printf("ID: %d\n", current->id);
+            printf("Name: %s\n", current->name);
+            printf("Surname: %s\n", current->surname);
+            printf("Pesel: %s\n", current->pesel);
+            printf("PWZ: %s\n", current->pwz);
+            printf("Tytul: %s\n", current->title);
+            printf("Specjalizacja: %s\n", current->typ);
+            printf("Email: %s\n", current->email);
+            printf("Phone: %s\n", current->phone);
+            printf("Godziny pracy: %s\n", current->hours);
+            found = true;
+        }
+        current = current->next;
+    }
+    if (!found) {
+        printf("Nie odnaleziono lekarza");
+    }
+
+}
+void search_wizyt(Wizyty **head) {
+    if (*head == NULL) {
+        printf("Baza pusta;\n");
+        return;
+    }
+    printf("Wyszukiwanie wizyty\n");
+    char search_date[20];
+    char search_time[20];
+    printf("Wprowadz date wizyty: \n");
+    scanf("%19s", search_date);
+    printf("Wprowadz czas wizyty: \n");
+    scanf("%19s", search_time);
+    Wizyty *current = *head;
+    bool found = false;
+    while (current != NULL) {
+        if (strcmp(current->date, search_date) == 0 && strcmp(current->time, search_time) == 0) {
+            printf("ID: %d\n", current->id);
+            printf("Pacjent: %d\n", current->pacjent_id);
+            printf("Lekarz: %d\n", current->lekarz_id);
+            printf("Data: %s\n", current->date);
+            printf("Czas: %s\n", current->time);
+            printf("Trwalosc: %d\n", current->duration);
+            printf("Status: %d\n", current->status);
+        }
+        current = current->next;
+    }
+    if (!found) {
+        printf("Nie odnaleziono wizyty");
+    }
+}
 void load_all(Wizyty **head_w, Lekarz **head_l, Pacjent **head_p) {
     load_lekarze(head_l);
     load_pacjenci(head_p);
@@ -442,6 +537,7 @@ int main(void) {
                     printf("1. Dodaj lekarzy\n");
                     printf("2. Pokaz lekarzy\n");
                     printf("3. Usuwanie lekarzy\n");
+                    printf("4. Wyszukiwanie lekarzy\n");
                     printf("0. Powrot\n");
                     printf("Wybierz opcje: ");
                     scanf("%d", &sub_choice);
@@ -454,7 +550,9 @@ int main(void) {
                             print_lekarze(head_lekarz);
                             break;
                         case 3:
-                            printf("Funkcja usuwania wkrotce...\n");
+                            break;
+                        case 4:
+                            search_lekarz(&head_lekarz);
                             break;
                         case 0:
                             break;
@@ -471,6 +569,7 @@ int main(void) {
                     printf("1. Dodaj pacjenta\n");
                     printf("2. Pokaz pacjentow\n");
                     printf("3. Usuwanie pacjenta\n");
+                    printf("4. Wyszukiwanie pacjenta\n");
                     printf("0. Powrot\n");
                     printf("Wybierz opcje: ");
                     scanf("%d", &sub_choice);
@@ -483,7 +582,9 @@ int main(void) {
                             print_pacjenci(head_pacjent);
                             break;
                         case 3:
-                            printf("Funkcja usuwania wkrotce...\n");
+                            break;
+                        case 4:
+                            search_pacjent(&head_pacjent);
                             break;
                         case 0:
                             break;
@@ -500,6 +601,7 @@ int main(void) {
                     printf("1. Dodaj wizyte\n");
                     printf("2. Pokaz wizyty\n");
                     printf("3. Usuwanie wizyty\n");
+                    printf("4. Wyszukiwanie wizyty\n");
                     printf("0. Powrot\n");
                     printf("Wybierz opcje: ");
                     scanf("%d", &sub_choice);
@@ -512,22 +614,24 @@ int main(void) {
                             print_wizyty(head_wizyt);
                             break;
                         case 3:
-                            printf("Funkcja usuwania wkrotce...\n");
+                            break;
+                        case 4:
+                            search_wizyt(&head_wizyt);
                             break;
                         case 0:
                             break;
                         default:
-                            printf("Nieznana opcja.\n");
+                            printf("Nieznana opcja\n");
                     }
                 }
                 break;
             }
             case 0:
-                printf("Zamykanie systemu...\n");
+                printf("Zamykanie systemu\n");
                 save_all(head_wizyt, head_lekarz, head_pacjent);
                 break;
             default:
-                printf("Nieznana opcja, sprobuj ponownie.\n");
+                printf("Nieznana opcja, sprobuj ponownie\n");
         }
     }
     return 0;
