@@ -83,7 +83,7 @@ void print_wizyty(Wizyty *head) {
 
 void add_lekarz(Lekarz **head) {
     int choice = 1;
-    printf("\n--- Tryb dodawania lekarzy ---\n");
+    printf("\nDodawanie lekarzy\n");
 
     while (choice != 0) {
         Lekarz *nowy = (Lekarz*)malloc(sizeof(Lekarz));
@@ -140,7 +140,7 @@ void add_lekarz(Lekarz **head) {
 
 void add_pacjent(Pacjent **head) {
     int choice = 1;
-    printf("\n--- Tryb dodawania pacjentow ---\n");
+    printf("\nDodawanie pacjentow\n");
 
     while (choice != 0) {
         Pacjent *nowy = (Pacjent*)malloc(sizeof(Pacjent));
@@ -202,7 +202,7 @@ void add_wizyta(Wizyty **head, Lekarz *head_l, Pacjent *head_p) {
     int target_l, target_p;
     bool p_found = false, l_found = false;
 
-    printf("\n--- Nowa wizyta ---\n");
+    printf("\nNowa wizyta\n");
     print_pacjenci(head_p);
     printf("Jaki ID pacjenta? ");
     scanf("%d", &target_p);
@@ -238,7 +238,37 @@ void add_wizyta(Wizyty **head, Lekarz *head_l, Pacjent *head_p) {
         printf("Blad, nie ma lekarza z takim id\n");
         return;
     }
+    char temp_date[11];
+    char temp_time[6];
+    int temp_duration;
+    printf("Data (DD.MM.RRRR): \n");
+    scanf("%10s", temp_date);
+    printf("Czas (HH:MM): \n");
+    scanf("%6s", temp_time);
+    printf("Czas trwania (w minutach): \n");
+    scanf("%d", &temp_duration);
+    Wizyty *check = *head;
+    bool conflict = false;
+    while (check != NULL) {
+        if (check->lekarz_id == target_l && strcmp(check->date, temp_date) == 0) {
+            int ha,hb,ma,mb;
+            sscanf(check->time, "%d:%d", &hb, &mb);
+            sscanf(temp_time, "%d:%d", &ha, &ma);
+            int time_b = hb * 60 + mb;
+            int end_old = time_b + check->duration;
+            int time_a = ha * 60 + ma;
+            int end_new  = time_a + temp_duration;
+            if (time_a < end_old && time_b < end_new) {
+                conflict = true;
+            }
 
+        }
+        check = check->next;
+    }
+    if (conflict) {
+        printf("Blad: Lekarz ma juz wizyte w tym czasie!\n");
+        return;
+    }
     Wizyty *nowy = (Wizyty*)malloc(sizeof(Wizyty));
     if (nowy == NULL) {
         printf("Blad: Brak pamieci!\n");
@@ -258,12 +288,9 @@ void add_wizyta(Wizyty **head, Lekarz *head_l, Pacjent *head_p) {
 
     nowy->pacjent_id = target_p;
     nowy->lekarz_id = target_l;
-    printf("Data (DD.MM.RRRR): \n");
-    scanf("%10s", nowy->date);
-    printf("Czas (HH:MM): \n");
-    scanf("%6s", nowy->time);
-    printf("Czas trwania (w minutach): \n");
-    scanf("%d", &nowy->duration);
+    strcpy(nowy->date,temp_date);
+    strcpy(nowy->time,temp_time);
+    nowy->duration = temp_duration;
     nowy->status = 0;
 
     if (*head == NULL) {
@@ -427,6 +454,74 @@ void search_pacjent(Pacjent **head) {
             printf("Phone: %s\n", current->phone);
             printf("Weight: %f\n", current->weight);
             printf("Height: %f\n", current->height);
+            int edit;
+            printf("Czy chcesz edytowac dane pacjenta? (1-Tak, 0-Nie)");
+            scanf("%d", &edit);
+            if (edit == 1) {
+                int field = -1;
+                while (field != 0) {
+                    printf("1.ID: %d\n", current->id);
+                    printf("2.Name: %s\n", current->name);
+                    printf("3.Surname: %s\n", current->surname);
+                    printf("4.Address: %s\n", current->address);
+                    printf("5.Email: %s\n", current->email);
+                    printf("6.Phone: %s\n", current->phone);
+                    printf("7.Weight: %f\n", current->weight);
+                    printf("8.Height: %f\n", current->height);
+                    printf("0.Wyjscie\n");
+                    scanf("%d", &field);
+                    switch (field) {
+                        case 1: {
+                            int assured;
+                            printf("Zmiena id nie jest polecana, czy na pewno chcesz kontynuowac?(Wprowadz 1 dla podtwierdzenia)\n");
+                            scanf("%d", &assured);
+                            if (assured == 1) {
+                                printf("Wprowadz nowe id:\n");
+                                scanf("%d", &current->id);
+                                break;
+                            }
+                            else {
+                                printf("Madry wybor\n");
+                                break;
+                            }
+                        }
+                        case 2:
+                            printf("Wprowadz nowe imie:\n");
+                            scanf("%s", current->name);
+                            break;
+                        case 3:
+                            printf("Wprowadz nowe nazwisko:\n");
+                            scanf("%s", current->surname);
+                            break;
+                        case 4:
+                            printf("Wprowadz nowy adress:\n");
+                            scanf("%s", current->address);
+                            break;
+                        case 5:
+                            printf("Wprowadz nowy email:\n");
+                            scanf("%s", current->email);
+                            break;
+                        case 6:
+                            printf("Wprowadz nowy numer telefonu:\n");
+                            scanf("%s", current->phone);
+                            break;
+                        case 7:
+                            printf("Wprowadz nowa wage:\n");
+                            scanf("%f", &current->weight);
+                            break;
+                        case 8:
+                            printf("Wprowadz nowy wzrost:\n");
+                            scanf("%f", &current->height);
+                            break;
+                        case 0:
+                            printf("Zakonczono edycje.\n");
+                            break;
+                        default:
+                            printf("Nieznana opcja!\n");
+                    }
+                }
+            }
+
         }
         current = current->next;
 
@@ -460,6 +555,78 @@ void search_lekarz(Lekarz **head) {
             printf("Phone: %s\n", current->phone);
             printf("Godziny pracy: %s\n", current->hours);
             found = true;
+            int edit;
+            printf("Czy chcesz edytowac dane lekarza? (1-Tak, 0-Nie)");
+            scanf("%d", &edit);
+            if (edit == 1) {
+                int field = -1;
+                while (field != 0) {
+                    printf("1.ID: %d\n", current->id);
+                    printf("2.Name: %s\n", current->name);
+                    printf("3.Surname: %s\n", current->surname);
+                    printf("4.PWZ: %s\n", current->pwz);
+                    printf("5.Email: %s\n", current->email);
+                    printf("6.Phone: %s\n", current->phone);
+                    printf("7.Tytul: %s\n", current->title);
+                    printf("8.Specjalizacja: %s\n", current->typ);
+                    printf("9.Godziny pracy: %s\n", current->hours);
+                    printf("0. Wyjscie\n");
+                    scanf("%d", &field);
+                    switch (field) {
+                        case 1: {
+                            int assured;
+                            printf("Zmiena id nie jest polecana, czy na pewno chcesz kontynuowac?(Wprowadz 1 dla podtwierdzenia)\n");
+                            scanf("%d", &assured);
+                            if (assured == 1) {
+                                printf("Wprowadz nowe id:\n");
+                                scanf("%d", &current->id);
+                                break;
+                            }
+                            else {
+                                printf("Madry wybor\n");
+                                break;
+                            }
+                        }
+                        case 2:
+                            printf("Wprowadz nowe imie:\n");
+                            scanf("%s", current->name);
+                            break;
+                        case 3:
+                            printf("Wprowadz nowe nazwisko:\n");
+                            scanf("%s", current->surname);
+                            break;
+                        case 4:
+                            printf("Wprowadz nowe PWZ:\n");
+                            scanf("%s", current->pwz);
+                            break;
+                        case 5:
+                            printf("Wprowadz nowy email:\n");
+                            scanf("%s", current->email);
+                            break;
+                        case 6:
+                            printf("Wprowadz nowy numer telefonu:\n");
+                            scanf("%s", current->phone);
+                            break;
+                        case 7:
+                            printf("Wprowadz nowy tytul:\n");
+                            scanf("%s", current->title);
+                            break;
+                        case 8:
+                            printf("Wprowadz nowa specjalizacje:\n");
+                            scanf("%s", current->typ);
+                            break;
+                        case 9:
+                            printf("Wprowadz nowe godziny pracy:\n");
+                            scanf("%s", current->hours);
+                            break;
+                        case 0:
+                            printf("Zakonczono edycje.\n");
+                            break;
+                        default:
+                            printf("Nieznana opcja!\n");
+                    }
+                }
+            }
         }
         current = current->next;
     }
@@ -484,6 +651,7 @@ void search_wizyt(Wizyty **head) {
     bool found = false;
     while (current != NULL) {
         if (strcmp(current->date, search_date) == 0 && strcmp(current->time, search_time) == 0) {
+            found = true;
             printf("ID: %d\n", current->id);
             printf("Pacjent: %d\n", current->pacjent_id);
             printf("Lekarz: %d\n", current->lekarz_id);
@@ -491,6 +659,68 @@ void search_wizyt(Wizyty **head) {
             printf("Czas: %s\n", current->time);
             printf("Trwalosc: %d\n", current->duration);
             printf("Status: %d\n", current->status);
+            int edit;
+            printf("Czy chcesz edytowac dane wizyty? (1-Tak, 0-Nie)");
+            scanf("%d", &edit);
+            if (edit == 1) {
+                int field = -1;
+                while (field != 0) {
+                    printf("1.ID: %d\n", current->id);
+                    printf("2.Pacjent: %d\n", current->pacjent_id);
+                    printf("3.Lekarz: %d\n", current->lekarz_id);
+                    printf("4.Data: %s\n", current->date);
+                    printf("5.Czas: %s\n", current->time);
+                    printf("6.Trwalosc: %d\n", current->duration);
+                    printf("7.Status: %d\n", current->status);
+                    printf("0.Wyjscie\n");
+                    scanf("%d", &field);
+                    switch (field) {
+                        case 1: {
+                            int assured;
+                            printf("Zmiena id nie jest polecana, czy na pewno chcesz kontynuowac?(Wprowadz 1 dla podtwierdzenia)\n");
+                            scanf("%d", &assured);
+                            if (assured == 1) {
+                                printf("Wprowadz nowe id:\n");
+                                scanf("%d", &current->id);
+                                break;
+                            }
+                            else {
+                                printf("Madry wybor\n");
+                                break;
+                            }
+                        }
+                        case 2:
+                            printf("Wprowadz nowego pacjenta:\n");
+                            scanf("%d", &current->pacjent_id);
+                            break;
+                        case 3:
+                            printf("Wprowadz nowego lekarza:\n");
+                            scanf("%d", &current->lekarz_id);
+                            break;
+                        case 4:
+                            printf("Wprowadz nowa date:\n");
+                            scanf("%s", current->date);
+                            break;
+                        case 5:
+                            printf("Wprowadz nowy czas:\n");
+                            scanf("%s", current->time);
+                            break;
+                        case 6:
+                            printf("Wprowadz nowa trwalosc:\n");
+                            scanf("%d", &current->duration);
+                            break;
+                        case 7:
+                            printf("Wprowadz nowy status:\n");
+                            scanf("%d", &current->status);
+                            break;
+                        case 0:
+                            printf("Zakonczono edycje.\n");
+                            break;
+                        default:
+                            printf("Nieznana opcja!\n");
+                    }
+                }
+            }
         }
         current = current->next;
     }
@@ -498,18 +728,113 @@ void search_wizyt(Wizyty **head) {
         printf("Nie odnaleziono wizyty");
     }
 }
+void delete_pacjent(Pacjent **head) {
+    if (*head == NULL) {
+        printf("Baza pusta;\n");
+        return;
+    }
+    int target_id;
+    printf("Usuwanie pacjenta\n");
+    printf("Podaj id pacjenta do usuniecia:\n");
+    scanf("%d", &target_id);
+    Pacjent *current = *head;
+    Pacjent *prev = NULL;
+    if (current != NULL && current->id == target_id) {
+        *head = current->next;
+        free(current);
+        printf("Pacjent o id %d zostal usuniety\n", target_id);
+        return;
+    }
+    while (current != NULL && current->id != target_id) {
+        prev = current;
+        current = current->next;
+    }
+    if (current == NULL) {
+        printf("Pacjenta o takim id nie odnalieziono;\n");
+        return;
+    }
+
+    if (current != NULL && current->id == target_id) {
+        prev->next = current->next;
+        free(current);
+    }
+    printf("Pacjent o id %d zostal usuniety\n", target_id);
+
+
+}
+void delete_lekarz(Lekarz **head) {
+    if (*head == NULL) {
+        printf("Baza pusta;\n");
+        return;
+    }
+    int target_id;
+    printf("Usuwanie lekarza\n");
+    printf("Podaj id lekarza do usuniecia:\n");
+    scanf("%d", &target_id);
+    Lekarz *current = *head;
+    Lekarz *prev = NULL;
+    if (current != NULL && current->id == target_id) {
+        *head = current->next;
+        free(current);
+        printf("Lekarz o id %d zostal usuniety\n", target_id);
+        return;
+    }
+    while (current != NULL && current->id != target_id) {
+        prev = current;
+        current = current->next;
+    }
+    if (current == NULL) {
+        printf("Lekarza o takim id nie odnaleziono\n");
+        return;
+    }
+    if (current != NULL && current->id == target_id) {
+        prev->next = current->next;
+        free(current);
+    }
+    printf("Lekarz o id %d zostal usuniety\n", target_id);
+}
+void delete_wizyta(Wizyty **head) {
+    if (*head == NULL) {
+        printf("Baza pusta;\n");
+        return;
+    }
+    int target_id;
+    printf("Usuwanie wizyty\n");
+    printf("Podaj id wizyty do usuniecia:\n");
+    scanf("%d", &target_id);
+    Wizyty *current = *head;
+    Wizyty *prev = NULL;
+    if (current != NULL && current->id == target_id) {
+        *head = current->next;
+        free(current);
+        return;
+    }
+    while (current != NULL && current->id != target_id) {
+        prev = current;
+        current = current->next;
+    }
+    if (current == NULL) {
+        printf("Nie odnaleziono wizyty o takim  id\n");
+        return;
+    }
+    if (current != NULL && current->id == target_id) {
+        prev->next = current->next;
+        free(current);
+    }
+    printf("Wizyta o id %d zostala usunieta\n", target_id);
+}
 void load_all(Wizyty **head_w, Lekarz **head_l, Pacjent **head_p) {
     load_lekarze(head_l);
     load_pacjenci(head_p);
     load_wizyty(head_w);
-    printf("[System] Baza danych zaladowana pomyslnie.\n");
+    printf("Baza danych zaladowana pomyslnie.\n");
 }
 
 void save_all(Wizyty *head_w, Lekarz *head_l, Pacjent *head_p) {
     save_lekarze(head_l);
     save_pacjenci(head_p);
     save_wizyty(head_w);
-    printf("[System] Wszystkie dane zostaly zapisane.\n");
+    printf("Wszystkie dane zostaly zapisane.\n");
 }
 
 int main(void) {
@@ -521,7 +846,7 @@ int main(void) {
     load_all(&head_wizyt, &head_lekarz, &head_pacjent);
 
     while (main_choice != 0) {
-        printf("\n=== MENU GLOWNE ===\n");
+        printf("\n MENU GLOWNE \n");
         printf("1. Lekarze\n");
         printf("2. Pacjenci\n");
         printf("3. Wizyty\n");
@@ -533,7 +858,7 @@ int main(void) {
             case 1: {
                 int sub_choice = -1;
                 while (sub_choice != 0) {
-                    printf("\n--- ZARZADZANIE LEKARZAMI ---\n");
+                    printf("\n ZARZADZANIE LEKARZAMI \n");
                     printf("1. Dodaj lekarzy\n");
                     printf("2. Pokaz lekarzy\n");
                     printf("3. Usuwanie lekarzy\n");
@@ -550,6 +875,7 @@ int main(void) {
                             print_lekarze(head_lekarz);
                             break;
                         case 3:
+                            delete_lekarz(&head_lekarz);
                             break;
                         case 4:
                             search_lekarz(&head_lekarz);
@@ -565,7 +891,7 @@ int main(void) {
             case 2: {
                 int sub_choice = -1;
                 while (sub_choice != 0) {
-                    printf("\n--- ZARZADZANIE PACJENTAMI ---\n");
+                    printf("\n ZARZADZANIE PACJENTAMI \n");
                     printf("1. Dodaj pacjenta\n");
                     printf("2. Pokaz pacjentow\n");
                     printf("3. Usuwanie pacjenta\n");
@@ -582,6 +908,7 @@ int main(void) {
                             print_pacjenci(head_pacjent);
                             break;
                         case 3:
+                            delete_pacjent(&head_pacjent);
                             break;
                         case 4:
                             search_pacjent(&head_pacjent);
@@ -597,7 +924,7 @@ int main(void) {
             case 3: {
                 int sub_choice = -1;
                 while (sub_choice != 0) {
-                    printf("\n--- ZARZADZANIE WIZYTAMI ---\n");
+                    printf("\n ZARZADZANIE WIZYTAMI \n");
                     printf("1. Dodaj wizyte\n");
                     printf("2. Pokaz wizyty\n");
                     printf("3. Usuwanie wizyty\n");
@@ -614,6 +941,7 @@ int main(void) {
                             print_wizyty(head_wizyt);
                             break;
                         case 3:
+                            delete_wizyta(&head_wizyt);
                             break;
                         case 4:
                             search_wizyt(&head_wizyt);
