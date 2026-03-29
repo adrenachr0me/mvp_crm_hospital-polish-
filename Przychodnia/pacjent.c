@@ -207,33 +207,33 @@ void delete_pacjent(Pacjent **head) {
 
 
 }
-    int sort_col = 1;
-    int sort_dir = 1;
-    int compare(const void *a, const void *b) {
+    int sort_col_pac = 1;
+    int sort_dir_pac = 1;
+    int compare_pac(const void *a, const void *b) {
         Pacjent *l1 = *(Pacjent **)a;
         Pacjent *l2 = *(Pacjent **)b;
         int result = 0;
-        if (sort_col == 1) {
+        if (sort_col_pac == 1) {
             result = l1->id - l2->id;
         }
-        else if (sort_col == 2) {
+        else if (sort_col_pac == 2) {
             result = stricmp(l1->name, l2->name);
         }
-        else if (sort_col == 3) {
+        else if (sort_col_pac == 3) {
             result = stricmp(l1->surname, l2->surname);
         }
-        else if (sort_col == 4) {
+        else if (sort_col_pac == 4) {
             result = stricmp(l1->pesel, l2->pesel);
         }
-        else if (sort_col == 5) {
+        else if (sort_col_pac == 5) {
             result = stricmp(l1->nfz, l2->nfz);
         }
-        if (sort_dir == 2) {
+        if (sort_dir_pac == 2) {
             result = -result;
         }
         return result;
     }
-    void sort_lekarz(Pacjent **head) {
+    void sort_pacjent(Pacjent **head) {
         if (*head == NULL || (*head)->next == NULL) {
             printf("Baza jest pusta lub ma tylko jednego lekarza. Nie ma co sortowac!\n");
             return;
@@ -256,10 +256,10 @@ void delete_pacjent(Pacjent **head) {
             current = current->next;
         }
         printf("Po jakim polu chcesz sortowac? (1-Id, 2-Imie, 3-Nazwisko, 4-Pesel, 5-Oddzial NFZ)\n");
-        scanf("%d", &sort_col);
+        scanf("%d", &sort_col_pac);
         printf("W jakim kierunku chcesz sortowac? (1-Rosnaco, 2-Malejaco)\n");
-        scanf("%d", &sort_dir);
-        qsort(tab, count, sizeof(Pacjent *), compare);
+        scanf("%d", &sort_dir_pac);
+        qsort(tab, count, sizeof(Pacjent *), compare_pac);
         for (int i = 0; i < count - 1; i++) {
             tab[i]->next = tab[i + 1];
         }
