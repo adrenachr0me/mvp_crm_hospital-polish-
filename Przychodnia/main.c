@@ -41,9 +41,16 @@ int main(void) {
                         case 1:
                             add_lekarz(&head_lekarz);
                             break;
-                        case 2:
+                        case 2: {
+                            int choice = 0;
                             print_lekarze(head_lekarz);
+                            printf("Czy chcesz odsortowac dane? (1-Tak, Inne-Nie)");
+                            scanf("%d", &choice);
+                            if (choice == 1) {
+                                sort_lekarz(&head_lekarz);
+                            }
                             break;
+                        }
                         case 3:
                             delete_lekarz(&head_lekarz);
                             break;
@@ -74,9 +81,16 @@ int main(void) {
                         case 1:
                             add_pacjent(&head_pacjent);
                             break;
-                        case 2:
+                        case 2: {
+                            int choice = 0;
                             print_pacjenci(head_pacjent);
+                            printf("Czy chcesz odsortowac dane? (1-Tak, Inne-Nie)");
+                            scanf("%d", &choice);
+                            if (choice == 1) {
+                                sort_pacjent(&head_pacjent);
+                            }
                             break;
+                        }
                         case 3:
                             delete_pacjent(&head_pacjent);
                             break;

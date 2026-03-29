@@ -207,27 +207,66 @@ void delete_pacjent(Pacjent **head) {
 
 
 }
-void sort_pacjent(Pacjent **head){
-    if (*head == NULL) {
-        printf("Baza pusta;\n");
-        return;
+    int sort_col = 1;
+    int sort_dir = 1;
+    int compare(const void *a, const void *b) {
+        Pacjent *l1 = *(Pacjent **)a;
+        Pacjent *l2 = *(Pacjent **)b;
+        int result = 0;
+        if (sort_col == 1) {
+            result = l1->id - l2->id;
+        }
+        else if (sort_col == 2) {
+            result = stricmp(l1->name, l2->name);
+        }
+        else if (sort_col == 3) {
+            result = stricmp(l1->surname, l2->surname);
+        }
+        else if (sort_col == 4) {
+            result = stricmp(l1->pesel, l2->pesel);
+        }
+        else if (sort_col == 5) {
+            result = stricmp(l1->nfz, l2->nfz);
+        }
+        if (sort_dir == 2) {
+            result = -result;
+        }
+        return result;
     }
-    int count = 0;
-    Pacjent *current = *head;
-    while (current != NULL) {
-        current = current->next;
-        count++;
-    }
-    Pacjent **tab = malloc(count * sizeof(Pacjent*));
+    void sort_lekarz(Pacjent **head) {
+        if (*head == NULL || (*head)->next == NULL) {
+            printf("Baza jest pusta lub ma tylko jednego lekarza. Nie ma co sortowac!\n");
+            return;
+        }
+        int count = 0;
+        Pacjent *current = *head;
+        while (current != NULL) {
+            count++;
+            current = current->next;
+        }
+        Pacjent **tab = malloc(count * sizeof(Pacjent *));
+        if (tab == NULL) {
+            printf("Blad pamieci!\n");
+            return;
+        }
 
-    if (tab == NULL) {
-        printf("Blad pamieci!\n");
-        return;
+        current = *head;
+        for (int i = 0; i < count; i++) {
+            tab[i] = current;
+            current = current->next;
+        }
+        printf("Po jakim polu chcesz sortowac? (1-Id, 2-Imie, 3-Nazwisko, 4-Pesel, 5-Oddzial NFZ)\n");
+        scanf("%d", &sort_col);
+        printf("W jakim kierunku chcesz sortowac? (1-Rosnaco, 2-Malejaco)\n");
+        scanf("%d", &sort_dir);
+        qsort(tab, count, sizeof(Pacjent *), compare);
+        for (int i = 0; i < count - 1; i++) {
+            tab[i]->next = tab[i + 1];
+        }
+        tab[count - 1]->next = NULL;
+        *head = tab[0];
+        for (int i = 0; i < count; i++) {
+            printf("ID: %d | %s %s %s | %s\n", tab[i]->id, tab[i]->name, tab[i]->surname, tab[i]->pesel, tab[i]->nfz);
+        }
+        free(tab);
     }
-    current = *head;
-    for (int i = 0; i < count; i++) {
-        tab[i] = current;
-        current = current->next;
-    }
-    free(tab);
-}
