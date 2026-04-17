@@ -23,5 +23,5 @@ gcc main.c lekarz.c pacjent.c wizyta.c file_man.c -o przychodnia
 
 To start the application:
 ./przychodnia
-
+```
 ## Note: Ensure that the initial data files (lekarze.txt, pacjenci.txt, wizyty.txt) are located in the same working directory as the compiled executable before running the program.
