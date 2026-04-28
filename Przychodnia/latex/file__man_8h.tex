@@ -1,0 +1,64 @@
+\doxysection{file\+\_\+man.\+h File Reference}
+\label{file__man_8h}\index{file\_man.h@{file\_man.h}}
+
+
+Moduł zarządzania plikami i trwałością danych.  
+
+
+{\ttfamily \+\#include "{}wizyta.\+h"{}}\newline
+{\ttfamily \+\#include "{}pacjent.\+h"{}}\newline
+{\ttfamily \+\#include "{}lekarz.\+h"{}}\newline
+{\ttfamily \+\#include $<$stdio.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdbool.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{Indent}\textbf{ Obsługa Lekarzy}\par
+\begin{DoxyCompactItemize}
+\item 
+\label{file__man_8h_a36ba4cb1f0461c309f82ff044b40e770} 
+void {\bfseries save\+\_\+lekarze} ()
+\begin{DoxyCompactList}\small\item\em Zapisuje aktualną listę lekarzy do pliku. \end{DoxyCompactList}\item 
+\label{file__man_8h_ac1892ce5b2ebdca53404f2d2cc0f120d} 
+void {\bfseries load\+\_\+lekarze} ()
+\begin{DoxyCompactList}\small\item\em Wczytuje listę lekarzy z pliku do pamięci. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Obsługa Pacjentów}\par
+\begin{DoxyCompactItemize}
+\item 
+\label{file__man_8h_a7d7b108332c9d7976f3d0bb5038c7012} 
+void {\bfseries save\+\_\+pacjenci} ()
+\begin{DoxyCompactList}\small\item\em Zapisuje aktualną listę pacjentów do pliku. \end{DoxyCompactList}\item 
+\label{file__man_8h_a5245697ecd02ace2398a8ba002545c61} 
+void {\bfseries load\+\_\+pacjenci} ()
+\begin{DoxyCompactList}\small\item\em Wczytuje listę pacjentów z pliku do pamięci. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Obsługa Wizyt}\par
+\begin{DoxyCompactItemize}
+\item 
+\label{file__man_8h_a678d473e6367718cd9fef757ee4aad85} 
+void {\bfseries save\+\_\+wizyty} ()
+\begin{DoxyCompactList}\small\item\em Zapisuje listę wszystkich wizyt do pliku. \end{DoxyCompactList}\item 
+\label{file__man_8h_a916bfe65798ee0bcd4fa98133bdf80d4} 
+void {\bfseries load\+\_\+wizyty} ()
+\begin{DoxyCompactList}\small\item\em Wczytuje listę wizyt z pliku do pamięci. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Operacje Zbiorcze}\par
+\begin{DoxyCompactItemize}
+\item 
+\label{file__man_8h_a31bc004be8b8d4eb648b42c2afeb6bdb} 
+void {\bfseries save\+\_\+all} ()
+\begin{DoxyCompactList}\small\item\em Zapisuje całą bazę danych (lekarzy, pacjentów i wizyty) jednym wywołaniem. \end{DoxyCompactList}\item 
+\label{file__man_8h_ae724aa66f22d9c4096e3eadd28c1e863} 
+void {\bfseries load\+\_\+all} ()
+\begin{DoxyCompactList}\small\item\em Wczytuje wszystkie dane z plików podczas startu systemu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Detailed Description}
+Moduł zarządzania plikami i trwałością danych. 
+
+
+\begin{DoxyItemize}
+\item Ten nagłówek zawiera deklaracje funkcji odpowiedzialnych za serializację i deserializację list lekarzy, pacjentów oraz wizyt do plików binarnych lub tekstowych. 
+\end{DoxyItemize}

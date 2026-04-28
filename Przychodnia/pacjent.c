@@ -1,6 +1,19 @@
+/**
+ * @file pacjent.c
+ * @brief Implementacja operacji na liście pacjentów.
+ * * Plik zawiera pełną logikę funkcji zarządzających bazą pacjentów (CRUD),
+ * w tym dodawanie, interaktywne wyszukiwanie z edycją pól, bezpieczne usuwanie węzłów
+ * oraz wydajne sortowanie oparte na algorytmie qsort i tablicy wskaźników.
+ */
+
 #include "pacjent.h"
 
-
+/**
+ * @brief Wyświetla wszystkich pacjentów znajdujących się w bazie.
+ * * Przechodzi przez listę jednokierunkową od podanej głowy i wypisuje
+ * podstawowe informacje (ID, imię, nazwisko, PESEL, Oddział NFZ).
+ * * @param head Wskaźnik na początek listy pacjentów.
+ */
 void print_pacjenci(Pacjent *head) {
     Pacjent *current = head;
     if (current == NULL) {
@@ -13,6 +26,14 @@ void print_pacjenci(Pacjent *head) {
         current = current->next;
     }
 }
+
+/**
+ * @brief Dodaje nowych pacjentów do bazy w trybie interaktywnym.
+ * * Pobiera pełny zakres danych od użytkownika i dołącza nowy węzeł na koniec listy.
+ * ID pacjenta jest automatycznie inkrementowane na podstawie identyfikatora ostatniego węzła.
+ * Operacja działa w pętli, dopóki użytkownik jej nie przerwie.
+ * * @param head Podwójny wskaźnik na początek listy pacjentów.
+ */
 void add_pacjent(Pacjent **head) {
     int choice = 1;
     printf("\nDodawanie pacjentow\n");
@@ -72,6 +93,14 @@ void add_pacjent(Pacjent **head) {
         scanf("%d", &choice);
     }
 }
+
+/**
+ * @brief Wyszukuje pacjenta po numerze telefonu lub PESEL i umożliwia edycję jego danych.
+ * * Po odnalezieniu rekordu wyświetla aktualne dane pacjenta i uruchamia menu,
+ * które pozwala na selektywną modyfikację wybranych pól struktury (np. waga, adres).
+ * Edycja numeru ID wymaga dodatkowego potwierdzenia przez użytkownika.
+ * * @param head Podwójny wskaźnik na początek listy pacjentów.
+ */
 void search_pacjent(Pacjent **head) {
     if (*head == NULL) {
         printf("Baza pusta;\n");
@@ -173,6 +202,14 @@ void search_pacjent(Pacjent **head) {
         printf("Nie odnaleziono pacjenta z podanymi dannymi\n");
     }
 }
+
+/**
+ * @brief Usuwa pacjenta z listy na podstawie podanego identyfikatora ID.
+ * * Wykorzystuje technikę dwóch wskaźników (current i prev) w celu bezpiecznego
+ * złączenia elementów listy po usunięciu węzła docelowego oraz zwolnienia pamięci.
+ * Prawidłowo obsługuje usunięcie głowy listy.
+ * * @param head Podwójny wskaźnik na początek listy pacjentów.
+ */
 void delete_pacjent(Pacjent **head) {
     if (*head == NULL) {
         printf("Baza pusta;\n");
@@ -207,66 +244,87 @@ void delete_pacjent(Pacjent **head) {
 
 
 }
-    int sort_col_pac = 1;
-    int sort_dir_pac = 1;
-    int compare_pac(const void *a, const void *b) {
-        Pacjent *l1 = *(Pacjent **)a;
-        Pacjent *l2 = *(Pacjent **)b;
-        int result = 0;
-        if (sort_col_pac == 1) {
-            result = l1->id - l2->id;
-        }
-        else if (sort_col_pac == 2) {
-            result = stricmp(l1->name, l2->name);
-        }
-        else if (sort_col_pac == 3) {
-            result = stricmp(l1->surname, l2->surname);
-        }
-        else if (sort_col_pac == 4) {
-            result = stricmp(l1->pesel, l2->pesel);
-        }
-        else if (sort_col_pac == 5) {
-            result = stricmp(l1->nfz, l2->nfz);
-        }
-        if (sort_dir_pac == 2) {
-            result = -result;
-        }
-        return result;
-    }
-    void sort_pacjent(Pacjent **head) {
-        if (*head == NULL || (*head)->next == NULL) {
-            printf("Baza jest pusta lub ma tylko jednego lekarza. Nie ma co sortowac!\n");
-            return;
-        }
-        int count = 0;
-        Pacjent *current = *head;
-        while (current != NULL) {
-            count++;
-            current = current->next;
-        }
-        Pacjent **tab = malloc(count * sizeof(Pacjent *));
-        if (tab == NULL) {
-            printf("Blad pamieci!\n");
-            return;
-        }
 
-        current = *head;
-        for (int i = 0; i < count; i++) {
-            tab[i] = current;
-            current = current->next;
-        }
-        printf("Po jakim polu chcesz sortowac? (1-Id, 2-Imie, 3-Nazwisko, 4-Pesel, 5-Oddzial NFZ)\n");
-        scanf("%d", &sort_col_pac);
-        printf("W jakim kierunku chcesz sortowac? (1-Rosnaco, 2-Malejaco)\n");
-        scanf("%d", &sort_dir_pac);
-        qsort(tab, count, sizeof(Pacjent *), compare_pac);
-        for (int i = 0; i < count - 1; i++) {
-            tab[i]->next = tab[i + 1];
-        }
-        tab[count - 1]->next = NULL;
-        *head = tab[0];
-        for (int i = 0; i < count; i++) {
-            printf("ID: %d | %s %s %s | %s\n", tab[i]->id, tab[i]->name, tab[i]->surname, tab[i]->pesel, tab[i]->nfz);
-        }
-        free(tab);
+/** @brief Zmienna globalna określająca kolumnę do sortowania pacjentów. */
+int sort_col_pac = 1;
+
+/** @brief Zmienna globalna określająca kierunek sortowania pacjentów (1 - rosnąco, 2 - malejąco). */
+int sort_dir_pac = 1;
+
+/**
+ * @brief Funkcja pomocnicza porównująca dwa rekordy pacjentów dla algorytmu qsort.
+ * * Wykorzystuje globalne zmienne sort_col_pac i sort_dir_pac do decydowania,
+ * po którym polu (ID, Imię, Nazwisko, PESEL, NFZ) oraz w jakim kierunku sortować.
+ * * @param a Wskaźnik na wskaźnik pierwszego pacjenta.
+ * @param b Wskaźnik na wskaźnik drugiego pacjenta.
+ * @return Wartość ujemna, zero lub dodatnia.
+ */
+int compare_pac(const void *a, const void *b) {
+    Pacjent *l1 = *(Pacjent **)a;
+    Pacjent *l2 = *(Pacjent **)b;
+    int result = 0;
+    if (sort_col_pac == 1) {
+        result = l1->id - l2->id;
     }
+    else if (sort_col_pac == 2) {
+        result = stricmp(l1->name, l2->name);
+    }
+    else if (sort_col_pac == 3) {
+        result = stricmp(l1->surname, l2->surname);
+    }
+    else if (sort_col_pac == 4) {
+        result = stricmp(l1->pesel, l2->pesel);
+    }
+    else if (sort_col_pac == 5) {
+        result = stricmp(l1->nfz, l2->nfz);
+    }
+    if (sort_dir_pac == 2) {
+        result = -result;
+    }
+    return result;
+}
+
+/**
+ * @brief Sortuje listę pacjentów przy użyciu algorytmu qsort oraz tablicy wskaźników.
+ * * Algorytm optymalizuje operację poprzez przekopiowanie adresów poszczególnych
+ * węzłów listy do dynamicznie zaalokowanej tablicy. Tablica jest sortowana,
+ * a następnie relacje wskaźnikowe `next` w oryginalnej liście są przebudowywane.
+ * * @param head Podwójny wskaźnik na początek listy pacjentów.
+ */
+void sort_pacjent(Pacjent **head) {
+    if (*head == NULL || (*head)->next == NULL) {
+        printf("Baza jest pusta lub ma tylko jednego lekarza. Nie ma co sortowac!\n");
+        return;
+    }
+    int count = 0;
+    Pacjent *current = *head;
+    while (current != NULL) {
+        count++;
+        current = current->next;
+    }
+    Pacjent **tab = malloc(count * sizeof(Pacjent *));
+    if (tab == NULL) {
+        printf("Blad pamieci!\n");
+        return;
+    }
+
+    current = *head;
+    for (int i = 0; i < count; i++) {
+        tab[i] = current;
+        current = current->next;
+    }
+    printf("Po jakim polu chcesz sortowac? (1-Id, 2-Imie, 3-Nazwisko, 4-Pesel, 5-Oddzial NFZ)\n");
+    scanf("%d", &sort_col_pac);
+    printf("W jakim kierunku chcesz sortowac? (1-Rosnaco, 2-Malejaco)\n");
+    scanf("%d", &sort_dir_pac);
+    qsort(tab, count, sizeof(Pacjent *), compare_pac);
+    for (int i = 0; i < count - 1; i++) {
+        tab[i]->next = tab[i + 1];
+    }
+    tab[count - 1]->next = NULL;
+    *head = tab[0];
+    for (int i = 0; i < count; i++) {
+        printf("ID: %d | %s %s %s | %s\n", tab[i]->id, tab[i]->name, tab[i]->surname, tab[i]->pesel, tab[i]->nfz);
+    }
+    free(tab);
+}

@@ -1,0 +1,174 @@
+\doxysection{pacjent.\+c File Reference}
+\label{pacjent_8c}\index{pacjent.c@{pacjent.c}}
+
+
+Implementacja operacji na liście pacjentów.  
+
+
+{\ttfamily \+\#include "{}pacjent.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ print\+\_\+pacjenci} (\textbf{ Pacjent} $\ast$head)
+\begin{DoxyCompactList}\small\item\em Wyświetla wszystkich pacjentów znajdujących się w bazie. \end{DoxyCompactList}\item 
+void \textbf{ add\+\_\+pacjent} (\textbf{ Pacjent} $\ast$$\ast$head)
+\begin{DoxyCompactList}\small\item\em Dodaje nowych pacjentów do bazy w trybie interaktywnym. \end{DoxyCompactList}\item 
+void \textbf{ search\+\_\+pacjent} (\textbf{ Pacjent} $\ast$$\ast$head)
+\begin{DoxyCompactList}\small\item\em Wyszukuje pacjenta po numerze telefonu lub PESEL i umożliwia edycję jego danych. \end{DoxyCompactList}\item 
+void \textbf{ delete\+\_\+pacjent} (\textbf{ Pacjent} $\ast$$\ast$head)
+\begin{DoxyCompactList}\small\item\em Usuwa pacjenta z listy na podstawie podanego identyfikatora ID. \end{DoxyCompactList}\item 
+int \textbf{ compare\+\_\+pac} (const void $\ast$a, const void $\ast$b)
+\begin{DoxyCompactList}\small\item\em Funkcja pomocnicza porównująca dwa rekordy pacjentów dla algorytmu qsort. \end{DoxyCompactList}\item 
+void \textbf{ sort\+\_\+pacjent} (\textbf{ Pacjent} $\ast$$\ast$head)
+\begin{DoxyCompactList}\small\item\em Sortuje listę pacjentów przy użyciu algorytmu qsort oraz tablicy wskaźników. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\label{pacjent_8c_ae20a519ca11d2bf6291dcf4316dc706e} 
+int {\bfseries sort\+\_\+col\+\_\+pac} = 1
+\begin{DoxyCompactList}\small\item\em Zmienna globalna określająca kolumnę do sortowania pacjentów. \end{DoxyCompactList}\item 
+\label{pacjent_8c_a3656dbaa88f7b03dab97b15460efe930} 
+int {\bfseries sort\+\_\+dir\+\_\+pac} = 1
+\begin{DoxyCompactList}\small\item\em Zmienna globalna określająca kierunek sortowania pacjentów (1 -\/ rosnąco, 2 -\/ malejąco). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementacja operacji na liście pacjentów. 
+
+
+\begin{DoxyItemize}
+\item Plik zawiera pełną logikę funkcji zarządzających bazą pacjentów (CRUD), w tym dodawanie, interaktywne wyszukiwanie z edycją pól, bezpieczne usuwanie węzłów oraz wydajne sortowanie oparte na algorytmie qsort i tablicy wskaźników. 
+\end{DoxyItemize}
+
+\label{doc-func-members}
+\doxysubsection{Function Documentation}
+\index{pacjent.c@{pacjent.c}!add\_pacjent@{add\_pacjent}}
+\index{add\_pacjent@{add\_pacjent}!pacjent.c@{pacjent.c}}
+\doxysubsubsection{add\_pacjent()}
+{\footnotesize\ttfamily \label{pacjent_8c_ae2065d8af70d7e1a7c9486abdb8d1ce0} 
+void add\+\_\+pacjent (\begin{DoxyParamCaption}\item[{\textbf{ Pacjent} $\ast$$\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Dodaje nowych pacjentów do bazy w trybie interaktywnym. 
+
+Dodaje nowego pacjenta do bazy danych (interaktywne pobieranie danych).
+
+
+\begin{DoxyItemize}
+\item Pobiera pełny zakres danych od użytkownika i dołącza nowy węzeł na koniec listy. ID pacjenta jest automatycznie inkrementowane na podstawie identyfikatora ostatniego węzła. Operacja działa w pętli, dopóki użytkownik jej nie przerwie.
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy pacjentów. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{pacjent.c@{pacjent.c}!compare\_pac@{compare\_pac}}
+\index{compare\_pac@{compare\_pac}!pacjent.c@{pacjent.c}}
+\doxysubsubsection{compare\_pac()}
+{\footnotesize\ttfamily \label{pacjent_8c_a886a77aa56336661629a7bd7212ea22d} 
+int compare\+\_\+pac (\begin{DoxyParamCaption}\item[{const void $\ast$}]{a}{, }\item[{const void $\ast$}]{b}{}\end{DoxyParamCaption})}
+
+
+
+Funkcja pomocnicza porównująca dwa rekordy pacjentów dla algorytmu qsort. 
+
+
+\begin{DoxyItemize}
+\item Wykorzystuje globalne zmienne sort\+\_\+col\+\_\+pac i sort\+\_\+dir\+\_\+pac do decydowania, po którym polu (ID, Imię, Nazwisko, PESEL, NFZ) oraz w jakim kierunku sortować.
+\item 
+\begin{DoxyParams}{Parameters}
+{\em a} & Wskaźnik na wskaźnik pierwszego pacjenta. \\
+\hline
+{\em b} & Wskaźnik na wskaźnik drugiego pacjenta. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Wartość ujemna, zero lub dodatnia. 
+\end{DoxyReturn}
+
+\end{DoxyItemize}\index{pacjent.c@{pacjent.c}!delete\_pacjent@{delete\_pacjent}}
+\index{delete\_pacjent@{delete\_pacjent}!pacjent.c@{pacjent.c}}
+\doxysubsubsection{delete\_pacjent()}
+{\footnotesize\ttfamily \label{pacjent_8c_a3c8f863f8fa111003107108d2afc0e0e} 
+void delete\+\_\+pacjent (\begin{DoxyParamCaption}\item[{\textbf{ Pacjent} $\ast$$\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Usuwa pacjenta z listy na podstawie podanego identyfikatora ID. 
+
+Usuwa pacjenta z listy na podstawie ID, zwalniając zajmowaną pamięć.
+
+
+\begin{DoxyItemize}
+\item Wykorzystuje technikę dwóch wskaźników (current i prev) w celu bezpiecznego złączenia elementów listy po usunięciu węzła docelowego oraz zwolnienia pamięci. Prawidłowo obsługuje usunięcie głowy listy.
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy pacjentów. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{pacjent.c@{pacjent.c}!print\_pacjenci@{print\_pacjenci}}
+\index{print\_pacjenci@{print\_pacjenci}!pacjent.c@{pacjent.c}}
+\doxysubsubsection{print\_pacjenci()}
+{\footnotesize\ttfamily \label{pacjent_8c_ae7e44e4469063f827e118130649776ba} 
+void print\+\_\+pacjenci (\begin{DoxyParamCaption}\item[{\textbf{ Pacjent} $\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Wyświetla wszystkich pacjentów znajdujących się w bazie. 
+
+Wyświetla wszystkich pacjentów zarejestrowanych w systemie.
+
+
+\begin{DoxyItemize}
+\item Przechodzi przez listę jednokierunkową od podanej głowy i wypisuje podstawowe informacje (ID, imię, nazwisko, PESEL, Oddział NFZ).
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Wskaźnik na początek listy pacjentów. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{pacjent.c@{pacjent.c}!search\_pacjent@{search\_pacjent}}
+\index{search\_pacjent@{search\_pacjent}!pacjent.c@{pacjent.c}}
+\doxysubsubsection{search\_pacjent()}
+{\footnotesize\ttfamily \label{pacjent_8c_a6715c127ce49d2997f1fc50997e3b384} 
+void search\+\_\+pacjent (\begin{DoxyParamCaption}\item[{\textbf{ Pacjent} $\ast$$\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Wyszukuje pacjenta po numerze telefonu lub PESEL i umożliwia edycję jego danych. 
+
+Wyszukuje pacjenta na podstawie podanych kryteriów (np. nazwisko lub PESEL).
+
+
+\begin{DoxyItemize}
+\item Po odnalezieniu rekordu wyświetla aktualne dane pacjenta i uruchamia menu, które pozwala na selektywną modyfikację wybranych pól struktury (np. waga, adres). Edycja numeru ID wymaga dodatkowego potwierdzenia przez użytkownika.
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy pacjentów. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{pacjent.c@{pacjent.c}!sort\_pacjent@{sort\_pacjent}}
+\index{sort\_pacjent@{sort\_pacjent}!pacjent.c@{pacjent.c}}
+\doxysubsubsection{sort\_pacjent()}
+{\footnotesize\ttfamily \label{pacjent_8c_a3be9ff7f7b1f0004d56be210ed44f2d5} 
+void sort\+\_\+pacjent (\begin{DoxyParamCaption}\item[{\textbf{ Pacjent} $\ast$$\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Sortuje listę pacjentów przy użyciu algorytmu qsort oraz tablicy wskaźników. 
+
+Sortuje listę pacjentów według wybranego klucza (np. alfabetycznie).
+
+
+\begin{DoxyItemize}
+\item Algorytm optymalizuje operację poprzez przekopiowanie adresów poszczególnych węzłów listy do dynamicznie zaalokowanej tablicy. Tablica jest sortowana, a następnie relacje wskaźnikowe {\ttfamily next} w oryginalnej liście są przebudowywane.
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy pacjentów. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}

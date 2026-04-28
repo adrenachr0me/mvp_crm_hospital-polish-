@@ -1,5 +1,16 @@
+/**
+ * @file file_man.c
+ * @brief Implementacja modułu odpowiedzialnego za trwałość danych (zapis/odczyt).
+ * * Moduł wykorzystuje standardowe funkcje biblioteki stdio.h do operacji na plikach
+ * tekstowych. Dane są składowane w formacie kolumnowym, co ułatwia ich podgląd.
+ */
+
 #include "file_man.h"
 
+/**
+ * @brief Zapisuje listę lekarzy do pliku tekstowego "lekarze.txt".
+ * @param head Wskaźnik na pierwszy element listy lekarzy.
+ */
 void save_lekarze(Lekarz *head) {
     FILE *file = fopen("lekarze.txt", "w");
     if (file != NULL) {
@@ -14,6 +25,13 @@ void save_lekarze(Lekarz *head) {
         fclose(file);
     }
 }
+
+/**
+ * @brief Wczytuje lekarzy z pliku i buduje listę dynamiczną w pamięci.
+ * * Funkcja czyta dane linia po linii, alokuje pamięć dla każdego lekarza
+ * i dołącza go na koniec listy.
+ * @param head Podwójny wskaźnik na głowę listy (modyfikuje oryginalny wskaźnik).
+ */
 void load_lekarze(Lekarz **head) {
     FILE *file = fopen("lekarze.txt", "r");
     if (file == NULL) return;
@@ -41,6 +59,10 @@ void load_lekarze(Lekarz **head) {
     fclose(file);
 }
 
+/**
+ * @brief Zapisuje listę pacjentów do pliku "pacjenci.txt".
+ * @param head Wskaźnik na początek listy pacjentów.
+ */
 void save_pacjenci(Pacjent *head) {
     FILE *file = fopen("pacjenci.txt", "w");
     if (file != NULL) {
@@ -56,6 +78,10 @@ void save_pacjenci(Pacjent *head) {
     }
 }
 
+/**
+ * @brief Wczytuje listę pacjentów z pliku.
+ * @param head Podwójny wskaźnik na początek listy.
+ */
 void load_pacjenci(Pacjent **head) {
     FILE *file = fopen("pacjenci.txt", "r");
     if (file == NULL) return;
@@ -83,6 +109,10 @@ void load_pacjenci(Pacjent **head) {
     fclose(file);
 }
 
+/**
+ * @brief Zapisuje wizyty do pliku "wizyty.txt".
+ * @param head Wskaźnik na listę wizyt.
+ */
 void save_wizyty(Wizyty *head) {
     FILE *file = fopen("wizyty.txt", "w");
     if (file != NULL) {
@@ -97,6 +127,10 @@ void save_wizyty(Wizyty *head) {
     }
 }
 
+/**
+ * @brief Wczytuje wizyty z pliku.
+ * @param head Podwójny wskaźnik na listę wizyt.
+ */
 void load_wizyty(Wizyty **head) {
     FILE *file = fopen("wizyty.txt", "r");
     if (file == NULL) return;
@@ -123,8 +157,9 @@ void load_wizyty(Wizyty **head) {
     fclose(file);
 }
 
-
-
+/**
+ * @brief Zbiorcze ładowanie wszystkich danych systemowych.
+ */
 void load_all(Wizyty **head_w, Lekarz **head_l, Pacjent **head_p) {
     load_lekarze(head_l);
     load_pacjenci(head_p);
@@ -132,6 +167,9 @@ void load_all(Wizyty **head_w, Lekarz **head_l, Pacjent **head_p) {
     printf("Baza danych zaladowana pomyslnie.\n");
 }
 
+/**
+ * @brief Zbiorczy zapis wszystkich danych systemowych.
+ */
 void save_all(Wizyty *head_w, Lekarz *head_l, Pacjent *head_p) {
     save_lekarze(head_l);
     save_pacjenci(head_p);

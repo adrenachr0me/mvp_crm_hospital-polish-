@@ -1,0 +1,200 @@
+\doxysection{wizyta.\+h File Reference}
+\label{wizyta_8h}\index{wizyta.h@{wizyta.h}}
+
+
+Zarządzanie terminarzem wizyt lekarskich.  
+
+
+{\ttfamily \+\#include "{}pacjent.\+h"{}}\newline
+{\ttfamily \+\#include "{}lekarz.\+h"{}}\newline
+{\ttfamily \+\#include $<$stdio.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \+\#include $<$string.\+h$>$}\newline
+{\ttfamily \+\#include $<$stdbool.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ Wizyty}
+\begin{DoxyCompactList}\small\item\em Struktura reprezentująca pojedynczą wizytę w systemie (węzeł listy). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\label{wizyta_8h_a07c594968536e3ac42c79c946c285282} 
+typedef struct Wizyty {\bfseries Wizyty}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{Indent}\textbf{ Funkcje obsługi terminarza}\par
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ print\+\_\+wizyty} (\textbf{ Wizyty} $\ast$head)
+\begin{DoxyCompactList}\small\item\em Wyświetla listę wszystkich zarejestrowanych wizyt. \end{DoxyCompactList}\item 
+void \textbf{ add\+\_\+wizyta} (\textbf{ Wizyty} $\ast$$\ast$head, \textbf{ Lekarz} $\ast$head\+\_\+l, \textbf{ Pacjent} $\ast$head\+\_\+p)
+\begin{DoxyCompactList}\small\item\em Dodaje nową wizytę, weryfikując dostępność lekarza i pacjenta. \end{DoxyCompactList}\item 
+void \textbf{ search\+\_\+wizyt} (\textbf{ Wizyty} $\ast$$\ast$head)
+\begin{DoxyCompactList}\small\item\em Wyszukuje konkretną wizytę na podstawie ID lub daty. \end{DoxyCompactList}\item 
+void \textbf{ filtry\+\_\+wizyt} (\textbf{ Wizyty} $\ast$$\ast$head)
+\begin{DoxyCompactList}\small\item\em Pozwala na filtrowanie wizyt według zadanych kryteriów (np. tylko danego lekarza). \end{DoxyCompactList}\item 
+void \textbf{ delete\+\_\+wizyta} (\textbf{ Wizyty} $\ast$$\ast$head)
+\begin{DoxyCompactList}\small\item\em Usuwa wizytę z systemu i zwalnia pamięć. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Detailed Description}
+Zarządzanie terminarzem wizyt lekarskich. 
+
+
+
+\label{doc-func-members}
+\doxysubsection{Function Documentation}
+\index{wizyta.h@{wizyta.h}!add\_wizyta@{add\_wizyta}}
+\index{add\_wizyta@{add\_wizyta}!wizyta.h@{wizyta.h}}
+\doxysubsubsection{add\_wizyta()}
+{\footnotesize\ttfamily \label{wizyta_8h_ae68dedfa8a9f6a89a38587b925f9ce15} 
+void add\+\_\+wizyta (\begin{DoxyParamCaption}\item[{\textbf{ Wizyty} $\ast$$\ast$}]{head}{, }\item[{\textbf{ Lekarz} $\ast$}]{head\+\_\+l}{, }\item[{\textbf{ Pacjent} $\ast$}]{head\+\_\+p}{}\end{DoxyParamCaption})}
+
+
+
+Dodaje nową wizytę, weryfikując dostępność lekarza i pacjenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy wizyt.\\
+\hline
+\end{DoxyParams}
+Dodaje nową wizytę, weryfikując dostępność lekarza i pacjenta.
+
+
+\begin{DoxyItemize}
+\item 
+\end{DoxyItemize}
+
+Funkcja wykonuje proces rezerwacji w kilku krokach:\+
+\begin{DoxyEnumerate}
+\item Pobiera ID pacjenta i weryfikuje jego istnienie w bazie.
+\item Pobiera ID lekarza i weryfikuje jego istnienie w bazie.
+\item Pobiera dane o dacie, czasie rozpoczęcia i przewidywanym czasie trwania wizyty.
+\item Uruchamia algorytm wykrywania konfliktów:\+ przelicza godziny na minuty i sprawdza nakładanie się przedziałów czasowych z już istniejącymi wizytami u danego lekarza w tym dniu.
+\item Jeśli brakuje konfliktów, alokuje pamięć, nadaje nowe ID i dodaje wizytę na koniec listy.
+\end{DoxyEnumerate}
+\begin{DoxyItemize}
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy wizyt. \\
+\hline
+{\em head\+\_\+l} & Wskaźnik na początek listy lekarzy (do walidacji). \\
+\hline
+{\em head\+\_\+p} & Wskaźnik na początek listy pacjentów (do walidacji). \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{wizyta.h@{wizyta.h}!delete\_wizyta@{delete\_wizyta}}
+\index{delete\_wizyta@{delete\_wizyta}!wizyta.h@{wizyta.h}}
+\doxysubsubsection{delete\_wizyta()}
+{\footnotesize\ttfamily \label{wizyta_8h_a4ed446d62a542315f6992eff4c8a7ef0} 
+void delete\+\_\+wizyta (\begin{DoxyParamCaption}\item[{\textbf{ Wizyty} $\ast$$\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Usuwa wizytę z systemu i zwalnia pamięć. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy.\\
+\hline
+\end{DoxyParams}
+Usuwa wizytę z systemu i zwalnia pamięć.
+
+
+\begin{DoxyItemize}
+\item Implementacja bezpiecznie odpina węzeł wizyty z listy jednokierunkowej, zwalniając odpowiednio przypisaną do niej pamięć dynamiczną.
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy wizyt. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{wizyta.h@{wizyta.h}!filtry\_wizyt@{filtry\_wizyt}}
+\index{filtry\_wizyt@{filtry\_wizyt}!wizyta.h@{wizyta.h}}
+\doxysubsubsection{filtry\_wizyt()}
+{\footnotesize\ttfamily \label{wizyta_8h_ae4e967446f223004f874bb993b44943d} 
+void filtry\+\_\+wizyt (\begin{DoxyParamCaption}\item[{\textbf{ Wizyty} $\ast$$\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Pozwala na filtrowanie wizyt według zadanych kryteriów (np. tylko danego lekarza). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em head} & Wskaźnik na początek listy.\\
+\hline
+\end{DoxyParams}
+Pozwala na filtrowanie wizyt według zadanych kryteriów (np. tylko danego lekarza).
+
+
+\begin{DoxyItemize}
+\item 
+\end{DoxyItemize}
+
+Pozwala na przeglądanie wizyt przypisanych do konkretnego lekarza lub pacjenta. Oferuje dodatkową możliwość zawężenia wyników do określonej daty lub statusu wizyty. Zastosowano logikę dopasowania ({\ttfamily match}), która ułatwia rozbudowę o kolejne filtry.
+\begin{DoxyItemize}
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy wizyt. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{wizyta.h@{wizyta.h}!print\_wizyty@{print\_wizyty}}
+\index{print\_wizyty@{print\_wizyty}!wizyta.h@{wizyta.h}}
+\doxysubsubsection{print\_wizyty()}
+{\footnotesize\ttfamily \label{wizyta_8h_a46b6f99c5fb098e8a22959ceaab4cfa8} 
+void print\+\_\+wizyty (\begin{DoxyParamCaption}\item[{\textbf{ Wizyty} $\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Wyświetla listę wszystkich zarejestrowanych wizyt. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em head} & Wskaźnik na początek listy wizyt.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item Przechodzi przez listę jednokierunkową od podanej głowy i wypisuje podstawowe informacje o każdej wizycie (ID, powiązania z pacjentem i lekarzem, data, czas, status).
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Wskaźnik na początek listy wizyt. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{wizyta.h@{wizyta.h}!search\_wizyt@{search\_wizyt}}
+\index{search\_wizyt@{search\_wizyt}!wizyta.h@{wizyta.h}}
+\doxysubsubsection{search\_wizyt()}
+{\footnotesize\ttfamily \label{wizyta_8h_a63cf7a0d542c268b8c155b2d1cd4a1f6} 
+void search\+\_\+wizyt (\begin{DoxyParamCaption}\item[{\textbf{ Wizyty} $\ast$$\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Wyszukuje konkretną wizytę na podstawie ID lub daty. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em head} & Wskaźnik na początek listy.\\
+\hline
+\end{DoxyParams}
+Wyszukuje konkretną wizytę na podstawie ID lub daty.
+
+
+\begin{DoxyItemize}
+\item 
+\end{DoxyItemize}
+
+Wyszukuje po kombinacji daty oraz czasu wizyty. Po znalezieniu rekordu użytkownik może wywołać interaktywne menu umożliwiające edycję powiązań (ID pacjenta/\+lekarza), daty, czasu, czasu trwania oraz statusu rezerwacji.
+\begin{DoxyItemize}
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy wizyt. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}

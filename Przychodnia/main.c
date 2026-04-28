@@ -1,3 +1,12 @@
+/**
+ * @file main.c
+ * @brief Punkt wejścia aplikacji systemu zarządzania przychodnią.
+ * * Plik zawiera funkcję główną (main), która inicjalizuje struktury danych,
+ * ładuje zapisany stan systemu z plików oraz uruchamia interaktywne menu
+ * konsolowe oparte na zagnieżdżonych pętlach i instrukcjach switch.
+ * Menu pozwala na nawigację między modułami lekarzy, pacjentów i wizyt.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,6 +16,15 @@
 #include "wizyta.h"
 #include "file_man.h"
 
+/**
+ * @brief Główna funkcja programu, sterująca pętlą zdarzeń i interfejsem użytkownika.
+ * * @details Funkcja zarządza całym cyklem życia aplikacji:
+ * 1. Inicjalizuje wskaźniki początkowe (głowy) list jednokierunkowych na NULL.
+ * 2. Wywołuje funkcję load_all() w celu wczytania persystentnych danych z dysku.
+ * 3. Uruchamia zagnieżdżone menu konsolowe (Główne -> Podmenu modułów).
+ * 4. Gwarantuje bezpieczeństwo danych wywołując save_all() przy prawidłowym wyjściu z programu.
+ * * @return int Zwraca 0 po pomyślnym i bezpiecznym zamknięciu systemu.
+ */
 int main(void) {
     Lekarz *head_lekarz = NULL;
     Pacjent *head_pacjent = NULL;

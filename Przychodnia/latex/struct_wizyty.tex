@@ -1,0 +1,46 @@
+\doxysection{Wizyty Struct Reference}
+\label{struct_wizyty}\index{Wizyty@{Wizyty}}
+
+
+Struktura reprezentująca pojedynczą wizytę w systemie (węzeł listy).  
+
+
+
+
+{\ttfamily \+\#include $<$wizyta.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\label{struct_wizyty_a7441ef0865bcb3db9b8064dd7375c1ea} 
+int {\bfseries id}
+\begin{DoxyCompactList}\small\item\em Unikalny numer identyfikacyjny wizyty. \end{DoxyCompactList}\item 
+\label{struct_wizyty_a40729a90c02185bb404469b23c3773af} 
+int {\bfseries pacjent\+\_\+id}
+\begin{DoxyCompactList}\small\item\em ID pacjenta przypisanego do wizyty. \end{DoxyCompactList}\item 
+\label{struct_wizyty_a64c7290008fb423e18fc9d0f70eadaee} 
+int {\bfseries lekarz\+\_\+id}
+\begin{DoxyCompactList}\small\item\em ID lekarza prowadzącego wizytę \end{DoxyCompactList}\item 
+\label{struct_wizyty_af50b85db3899e654895ff7faa9c5fb61} 
+char {\bfseries date} [11]
+\begin{DoxyCompactList}\small\item\em Data wizyty (RRRR-\/\+MM-\/\+DD). \end{DoxyCompactList}\item 
+\label{struct_wizyty_a9782e2cd4c231e77e63cba24472bc2d8} 
+char {\bfseries time} [6]
+\begin{DoxyCompactList}\small\item\em Godzina wizyty (GG:\+MM). \end{DoxyCompactList}\item 
+\label{struct_wizyty_ac6e4b2a3cf932b33832d4e4e4e7cd0de} 
+int {\bfseries duration}
+\begin{DoxyCompactList}\small\item\em Czas trwania wizyty w minutach. \end{DoxyCompactList}\item 
+\label{struct_wizyty_a6e27f49150e9a14580fb313cc2777e00} 
+int {\bfseries status}
+\begin{DoxyCompactList}\small\item\em Status wizyty (np. 0-\/planowana, 1-\/odbyta, 2-\/odwołana). \end{DoxyCompactList}\item 
+\label{struct_wizyty_a0937e51d565c1fb9af7140b8a74a4f9c} 
+struct \textbf{ Wizyty} $\ast$ {\bfseries next}
+\begin{DoxyCompactList}\small\item\em Wskaźnik na następną wizytę w liście. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struktura reprezentująca pojedynczą wizytę w systemie (węzeł listy). 
+
+The documentation for this struct was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+\textbf{ wizyta.\+h}\end{DoxyCompactItemize}

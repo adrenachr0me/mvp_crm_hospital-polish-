@@ -1,0 +1,58 @@
+\doxysection{Pacjent Struct Reference}
+\label{struct_pacjent}\index{Pacjent@{Pacjent}}
+
+
+Struktura reprezentująca dane pacjenta w formie węzła listy jednokierunkowej.  
+
+
+
+
+{\ttfamily \+\#include $<$pacjent.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\label{struct_pacjent_a7441ef0865bcb3db9b8064dd7375c1ea} 
+int {\bfseries id}
+\begin{DoxyCompactList}\small\item\em Unikalny numer identyfikacyjny pacjenta. \end{DoxyCompactList}\item 
+\label{struct_pacjent_a72b952e44981373d9737a72616bb317f} 
+char {\bfseries name} [30]
+\begin{DoxyCompactList}\small\item\em Imię pacjenta. \end{DoxyCompactList}\item 
+\label{struct_pacjent_ac1440e0e6ec1734055d0e9da32d8f49d} 
+char {\bfseries surname} [30]
+\begin{DoxyCompactList}\small\item\em Nazwisko pacjenta. \end{DoxyCompactList}\item 
+\label{struct_pacjent_a374e5d54dff607cc868eccd8a5f0e686} 
+char {\bfseries pesel} [12]
+\begin{DoxyCompactList}\small\item\em Numer PESEL (11 znaków + znak końca napisu). \end{DoxyCompactList}\item 
+\label{struct_pacjent_afcdc9c66d451df13648aa4d89f42c3f8} 
+char {\bfseries birth\+\_\+date} [11]
+\begin{DoxyCompactList}\small\item\em Data urodzenia w formacie RRRR-\/\+MM-\/\+DD. \end{DoxyCompactList}\item 
+\label{struct_pacjent_adb29a9861a3fc56213185df8b106f9ef} 
+char {\bfseries address} [100]
+\begin{DoxyCompactList}\small\item\em Adres zamieszkania pacjenta. \end{DoxyCompactList}\item 
+\label{struct_pacjent_acc7965ca6d364e411c18b73e63a780ab} 
+char {\bfseries email} [50]
+\begin{DoxyCompactList}\small\item\em Adres e-\/mail pacjenta. \end{DoxyCompactList}\item 
+\label{struct_pacjent_ae5f90c40e7a22a68f1ce4ff1c1e0c0eb} 
+char {\bfseries phone} [15]
+\begin{DoxyCompactList}\small\item\em Numer telefonu kontaktowego. \end{DoxyCompactList}\item 
+\label{struct_pacjent_a8128625c9e3fd04c27b82957732d8781} 
+float {\bfseries weight}
+\begin{DoxyCompactList}\small\item\em Masa ciała pacjenta (w kg). \end{DoxyCompactList}\item 
+\label{struct_pacjent_a48083b65ac9a863566dc3e3fff09a5b4} 
+float {\bfseries height}
+\begin{DoxyCompactList}\small\item\em Wzrost pacjenta (w cm). \end{DoxyCompactList}\item 
+\label{struct_pacjent_a2ffee8456f7041ea3c65abd3c8d92163} 
+char {\bfseries nfz} [50]
+\begin{DoxyCompactList}\small\item\em Informacja o oddziale NFZ pacjenta. \end{DoxyCompactList}\item 
+\label{struct_pacjent_a3288a55702f4152e04fd880057a766e3} 
+struct \textbf{ Pacjent} $\ast$ {\bfseries next}
+\begin{DoxyCompactList}\small\item\em Wskaźnik na kolejnego pacjenta w liście (NULL na końcu). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struktura reprezentująca dane pacjenta w formie węzła listy jednokierunkowej. 
+
+The documentation for this struct was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+\textbf{ pacjent.\+h}\end{DoxyCompactItemize}

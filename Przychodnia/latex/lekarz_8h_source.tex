@@ -1,0 +1,42 @@
+\doxysection{lekarz.\+h}
+\label{lekarz_8h_source}\textbf{ Go to the documentation of this file.}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ LEKARZ\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ LEKARZ\_H}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }Lekarz\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{int}\ id;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{char}\ name[30];\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{char}\ surname[30];\ \ \ \ \ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{char}\ pesel[12];\ \ \ \ \ \ \ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{char}\ pwz[10];\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{char}\ title[30];\ \ \ \ \ \ \ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{char}\ typ[40];\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{char}\ email[50];\ \ \ \ \ \ \ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{char}\ phone[15];\ \ \ \ \ \ \ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{char}\ hours[100];\ \ \ \ \ \ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{struct\ }Lekarz\ *next;\ \ }
+\DoxyCodeLine{00030\ \}\ Lekarz;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{void}\ print\_lekarze(Lekarz\ *head);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{void}\ add\_lekarz(Lekarz\ **head);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{void}\ search\_lekarz(Lekarz\ **head);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00049\ \textcolor{keywordtype}{void}\ delete\_lekarz(Lekarz\ **head);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00053\ \textcolor{keywordtype}{void}\ sort\_lekarz(Lekarz\ **head);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,174 @@
+\doxysection{lekarz.\+c File Reference}
+\label{lekarz_8c}\index{lekarz.c@{lekarz.c}}
+
+
+Implementacja operacji na liście lekarzy.  
+
+
+{\ttfamily \+\#include "{}lekarz.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \textbf{ compare} (const void $\ast$a, const void $\ast$b)
+\begin{DoxyCompactList}\small\item\em Funkcja porównująca dwa rekordy lekarzy dla algorytmu qsort. \end{DoxyCompactList}\item 
+void \textbf{ sort\+\_\+lekarz} (\textbf{ Lekarz} $\ast$$\ast$head)
+\begin{DoxyCompactList}\small\item\em Sortuje listę lekarzy przy użyciu algorytmu qsort. \end{DoxyCompactList}\item 
+void \textbf{ print\+\_\+lekarze} (\textbf{ Lekarz} $\ast$head)
+\begin{DoxyCompactList}\small\item\em Wyświetla wszystkich lekarzy znajdujących się w bazie. \end{DoxyCompactList}\item 
+void \textbf{ add\+\_\+lekarz} (\textbf{ Lekarz} $\ast$$\ast$head)
+\begin{DoxyCompactList}\small\item\em Dodaje nowych lekarzy w trybie interaktywnym. \end{DoxyCompactList}\item 
+void \textbf{ search\+\_\+lekarz} (\textbf{ Lekarz} $\ast$$\ast$head)
+\begin{DoxyCompactList}\small\item\em Wyszukuje lekarza po numerze PESEL i umożliwia edycję jego danych. \end{DoxyCompactList}\item 
+void \textbf{ delete\+\_\+lekarz} (\textbf{ Lekarz} $\ast$$\ast$head)
+\begin{DoxyCompactList}\small\item\em Usuwa lekarza z listy na podstawie podanego identyfikatora ID. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\label{lekarz_8c_a6dc784d42e3c8c4af84a1b992f92a50b} 
+int {\bfseries sort\+\_\+col} = 1
+\begin{DoxyCompactList}\small\item\em Zmienna określająca kolumnę, według której odbywa się sortowanie. \end{DoxyCompactList}\item 
+\label{lekarz_8c_aec6042626f81935e65d6497ad7668c67} 
+int {\bfseries sort\+\_\+dir} = 1
+\begin{DoxyCompactList}\small\item\em Zmienna określająca kierunek sortowania (1 -\/ rosnąco, 2 -\/ malejąco). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementacja operacji na liście lekarzy. 
+
+
+\begin{DoxyItemize}
+\item Plik zawiera definicje funkcji zarządzających bazą lekarzy, w tym zaawansowane sortowanie przy użyciu algorytmu qsort oraz interaktywne wyszukiwanie z trybem edycji. Operacje wykonywane są na listach dynamicznych. 
+\end{DoxyItemize}
+
+\label{doc-func-members}
+\doxysubsection{Function Documentation}
+\index{lekarz.c@{lekarz.c}!add\_lekarz@{add\_lekarz}}
+\index{add\_lekarz@{add\_lekarz}!lekarz.c@{lekarz.c}}
+\doxysubsubsection{add\_lekarz()}
+{\footnotesize\ttfamily \label{lekarz_8c_a1d613dae3576d8a2928a987f513faa65} 
+void add\+\_\+lekarz (\begin{DoxyParamCaption}\item[{\textbf{ Lekarz} $\ast$$\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Dodaje nowych lekarzy w trybie interaktywnym. 
+
+Interaktywne dodawanie nowego lekarza do bazy.
+
+
+\begin{DoxyItemize}
+\item Pobiera dane od użytkownika i dołącza nowy węzeł na koniec listy. ID lekarza nadawane jest automatycznie na podstawie ostatniego elementu listy. Operacja działa w pętli dopóki użytkownik jej nie przerwie.
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{lekarz.c@{lekarz.c}!compare@{compare}}
+\index{compare@{compare}!lekarz.c@{lekarz.c}}
+\doxysubsubsection{compare()}
+{\footnotesize\ttfamily \label{lekarz_8c_ac70138609ef6aa6fabca57aca8681e83} 
+int compare (\begin{DoxyParamCaption}\item[{const void $\ast$}]{a}{, }\item[{const void $\ast$}]{b}{}\end{DoxyParamCaption})}
+
+
+
+Funkcja porównująca dwa rekordy lekarzy dla algorytmu qsort. 
+
+
+\begin{DoxyItemize}
+\item Porównuje elementy na podstawie wartości zmiennej globalnej sort\+\_\+col (ID, imię, nazwisko, tytuł, specjalizacja) i uwzględnia kierunek sortowania (sort\+\_\+dir).
+\item 
+\begin{DoxyParams}{Parameters}
+{\em a} & Wskaźnik na wskaźnik pierwszego lekarza do porównania. \\
+\hline
+{\em b} & Wskaźnik na wskaźnik drugiego lekarza do porównania. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Wartość ujemna, zero lub dodatnia w zależności od wyniku porównania. 
+\end{DoxyReturn}
+
+\end{DoxyItemize}\index{lekarz.c@{lekarz.c}!delete\_lekarz@{delete\_lekarz}}
+\index{delete\_lekarz@{delete\_lekarz}!lekarz.c@{lekarz.c}}
+\doxysubsubsection{delete\_lekarz()}
+{\footnotesize\ttfamily \label{lekarz_8c_a28339f6c3c1f03e0d3c0b8db0a03911f} 
+void delete\+\_\+lekarz (\begin{DoxyParamCaption}\item[{\textbf{ Lekarz} $\ast$$\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Usuwa lekarza z listy na podstawie podanego identyfikatora ID. 
+
+Usuwa lekarza z listy na podstawie ID.
+
+
+\begin{DoxyItemize}
+\item Implementacja korzysta z techniki dwóch wskaźników (current i prev), co pozwala na przepięcie listy i bezpieczne zwolnienie pamięci usuwanego węzła. Funkcja obsługuje również przypadek usunięcia pierwszego elementu.
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{lekarz.c@{lekarz.c}!print\_lekarze@{print\_lekarze}}
+\index{print\_lekarze@{print\_lekarze}!lekarz.c@{lekarz.c}}
+\doxysubsubsection{print\_lekarze()}
+{\footnotesize\ttfamily \label{lekarz_8c_a06eef8b9ad25ecabae5c87f6b9ba13d0} 
+void print\+\_\+lekarze (\begin{DoxyParamCaption}\item[{\textbf{ Lekarz} $\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Wyświetla wszystkich lekarzy znajdujących się w bazie. 
+
+Wyświetla listę wszystkich lekarzy w formacie tabelarycznym.
+
+
+\begin{DoxyItemize}
+\item Przechodzi przez listę jednokierunkową od podanej głowy i wypisuje podstawowe informacje (ID, tytuł, imię, nazwisko, specjalizację).
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Wskaźnik na początek listy. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{lekarz.c@{lekarz.c}!search\_lekarz@{search\_lekarz}}
+\index{search\_lekarz@{search\_lekarz}!lekarz.c@{lekarz.c}}
+\doxysubsubsection{search\_lekarz()}
+{\footnotesize\ttfamily \label{lekarz_8c_a850efe0de0238bd8a5de2fa126659740} 
+void search\+\_\+lekarz (\begin{DoxyParamCaption}\item[{\textbf{ Lekarz} $\ast$$\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Wyszukuje lekarza po numerze PESEL i umożliwia edycję jego danych. 
+
+Wyszukuje lekarza na podstawie zadanych kryteriów.
+
+
+\begin{DoxyItemize}
+\item Po znalezieniu rekordu wyświetla wszystkie szczegóły i uruchamia interaktywne menu pozwalające na aktualizację wybranych pól struktury. Zmiana ID jest opatrzona dodatkowym potwierdzeniem.
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\index{lekarz.c@{lekarz.c}!sort\_lekarz@{sort\_lekarz}}
+\index{sort\_lekarz@{sort\_lekarz}!lekarz.c@{lekarz.c}}
+\doxysubsubsection{sort\_lekarz()}
+{\footnotesize\ttfamily \label{lekarz_8c_a4c3ef5a7604c389c349a69fab41c1e2c} 
+void sort\+\_\+lekarz (\begin{DoxyParamCaption}\item[{\textbf{ Lekarz} $\ast$$\ast$}]{head}{}\end{DoxyParamCaption})}
+
+
+
+Sortuje listę lekarzy przy użyciu algorytmu qsort. 
+
+Sortuje listę lekarzy (np. alfabetycznie po nazwisku).
+
+
+\begin{DoxyItemize}
+\item Kopiuje wskaźniki węzłów do tymczasowej tablicy, sortuje ją, a następnie przebudowuje oryginalną listę na podstawie posortowanych wskaźników. Wynik operacji jest od razu wyświetlany na ekranie.
+\item 
+\begin{DoxyParams}{Parameters}
+{\em head} & Podwójny wskaźnik na początek listy lekarzy. \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}

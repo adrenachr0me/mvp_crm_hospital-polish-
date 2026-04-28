@@ -1,67 +1,110 @@
-#include "lekarz.h"
-    int sort_col = 1;
-    int sort_dir = 1;
-    int compare(const void *a, const void *b) {
-        Lekarz *l1 = *(Lekarz **)a;
-        Lekarz *l2 = *(Lekarz **)b;
-        int result = 0;
-        if (sort_col == 1) {
-            result = l1->id - l2->id;
-        }
-        else if (sort_col == 2) {
-            result = stricmp(l1->name, l2->name);
-        }
-        else if (sort_col == 3) {
-            result = stricmp(l1->surname, l2->surname);
-        }
-        else if (sort_col == 4) {
-            result = stricmp(l1->title, l2->title);
-        }
-        else if (sort_col == 5) {
-            result = stricmp(l1->typ, l2->typ);
-        }
-        if (sort_dir == 2) {
-            result = -result;
-        }
-        return result;
-    }
-    void sort_lekarz(Lekarz **head) {
-        if (*head == NULL || (*head)->next == NULL) {
-            printf("Baza jest pusta lub ma tylko jednego lekarza. Nie ma co sortowac!\n");
-            return;
-        }
-        int count = 0;
-        Lekarz *current = *head;
-        while (current != NULL) {
-            count++;
-            current = current->next;
-        }
-        Lekarz **tab = malloc(count * sizeof(Lekarz *));
-        if (tab == NULL) {
-            printf("Blad pamieci!\n");
-            return;
-        }
+/**
+ * @file lekarz.c
+ * @brief Implementacja operacji na liście lekarzy.
+ * * Plik zawiera definicje funkcji zarządzających bazą lekarzy, w tym
+ * zaawansowane sortowanie przy użyciu algorytmu qsort oraz interaktywne
+ * wyszukiwanie z trybem edycji. Operacje wykonywane są na listach dynamicznych.
+ */
 
-        current = *head;
-        for (int i = 0; i < count; i++) {
-            tab[i] = current;
-            current = current->next;
-        }
-        printf("Po jakim polu chcesz sortowac? (1-Id, 2-Imie, 3-Nazwisko, 4-Tytul, 5-Specjalizacja)\n");
-        scanf("%d", &sort_col);
-        printf("W jakim kierunku chcesz sortowac? (1-Rosnaco, 2-Malejaco)\n");
-        scanf("%d", &sort_dir);
-        qsort(tab, count, sizeof(Lekarz *), compare);
-        for (int i = 0; i < count - 1; i++) {
-            tab[i]->next = tab[i + 1];
-        }
-        tab[count - 1]->next = NULL;
-        *head = tab[0];
-        for (int i = 0; i < count; i++) {
-            printf("ID: %d | %s %s %s | %s\n", tab[i]->id, tab[i]->title, tab[i]->name, tab[i]->surname, tab[i]->typ);
-        }
-        free(tab);
+#include "lekarz.h"
+
+/** @brief Zmienna określająca kolumnę, według której odbywa się sortowanie. */
+int sort_col = 1;
+
+/** @brief Zmienna określająca kierunek sortowania (1 - rosnąco, 2 - malejąco). */
+int sort_dir = 1;
+
+/**
+ * @brief Funkcja porównująca dwa rekordy lekarzy dla algorytmu qsort.
+ * * Porównuje elementy na podstawie wartości zmiennej globalnej sort_col
+ * (ID, imię, nazwisko, tytuł, specjalizacja) i uwzględnia kierunek sortowania (sort_dir).
+ * * @param a Wskaźnik na wskaźnik pierwszego lekarza do porównania.
+ * @param b Wskaźnik na wskaźnik drugiego lekarza do porównania.
+ * @return Wartość ujemna, zero lub dodatnia w zależności od wyniku porównania.
+ */
+int compare(const void *a, const void *b) {
+    Lekarz *l1 = *(Lekarz **)a;
+    Lekarz *l2 = *(Lekarz **)b;
+    int result = 0;
+    if (sort_col == 1) {
+        result = l1->id - l2->id;
     }
+    else if (sort_col == 2) {
+        result = stricmp(l1->name, l2->name);
+    }
+    else if (sort_col == 3) {
+        result = stricmp(l1->surname, l2->surname);
+    }
+    else if (sort_col == 4) {
+        result = stricmp(l1->title, l2->title);
+    }
+    else if (sort_col == 5) {
+        result = stricmp(l1->typ, l2->typ);
+    }
+    if (sort_dir == 2) {
+        result = -result;
+    }
+    return result;
+}
+
+/**
+ * @brief Sortuje listę lekarzy przy użyciu algorytmu qsort.
+ * * Kopiuje wskaźniki węzłów do tymczasowej tablicy, sortuje ją,
+ * a następnie przebudowuje oryginalną listę na podstawie posortowanych wskaźników.
+ * Wynik operacji jest od razu wyświetlany na ekranie.
+ * * @param head Podwójny wskaźnik na początek listy lekarzy.
+ */
+void sort_lekarz(Lekarz **head) {
+    if (*head == NULL || (*head)->next == NULL) {
+        printf("Baza jest pusta lub ma tylko jednego lekarza. Nie ma co sortowac!\n");
+        return;
+    }
+    int count = 0;
+    Lekarz *current = *head;
+    while (current != NULL) {
+        count++;
+        current = current->next;
+    }
+
+    // Alokacja tablicy wskaźników dla efektywnego sortowania
+    Lekarz **tab = malloc(count * sizeof(Lekarz *));
+    if (tab == NULL) {
+        printf("Blad pamieci!\n");
+        return;
+    }
+
+    current = *head;
+    for (int i = 0; i < count; i++) {
+        tab[i] = current;
+        current = current->next;
+    }
+
+    printf("Po jakim polu chcesz sortowac? (1-Id, 2-Imie, 3-Nazwisko, 4-Tytul, 5-Specjalizacja)\n");
+    scanf("%d", &sort_col);
+    printf("W jakim kierunku chcesz sortowac? (1-Rosnaco, 2-Malejaco)\n");
+    scanf("%d", &sort_dir);
+
+    qsort(tab, count, sizeof(Lekarz *), compare);
+
+    // Odbudowa powiązań listy na podstawie posortowanej tablicy
+    for (int i = 0; i < count - 1; i++) {
+        tab[i]->next = tab[i + 1];
+    }
+    tab[count - 1]->next = NULL;
+    *head = tab[0];
+
+    for (int i = 0; i < count; i++) {
+        printf("ID: %d | %s %s %s | %s\n", tab[i]->id, tab[i]->title, tab[i]->name, tab[i]->surname, tab[i]->typ);
+    }
+    free(tab);
+}
+
+/**
+ * @brief Wyświetla wszystkich lekarzy znajdujących się w bazie.
+ * * Przechodzi przez listę jednokierunkową od podanej głowy i wypisuje
+ * podstawowe informacje (ID, tytuł, imię, nazwisko, specjalizację).
+ * * @param head Wskaźnik na początek listy.
+ */
 void print_lekarze(Lekarz *head) {
     Lekarz *current = head;
     int choice = 1;
@@ -76,6 +119,13 @@ void print_lekarze(Lekarz *head) {
 
 }
 
+/**
+ * @brief Dodaje nowych lekarzy w trybie interaktywnym.
+ * * Pobiera dane od użytkownika i dołącza nowy węzeł na koniec listy.
+ * ID lekarza nadawane jest automatycznie na podstawie ostatniego elementu listy.
+ * Operacja działa w pętli dopóki użytkownik jej nie przerwie.
+ * * @param head Podwójny wskaźnik na początek listy.
+ */
 void add_lekarz(Lekarz **head) {
     int choice = 1;
     printf("\nDodawanie lekarzy\n");
@@ -88,6 +138,7 @@ void add_lekarz(Lekarz **head) {
         }
         nowy->next = NULL;
 
+        // Logika automatycznego nadawania ID
         if (*head == NULL) {
             nowy->id = 1;
         } else {
@@ -118,6 +169,7 @@ void add_lekarz(Lekarz **head) {
         printf("Godziny pracy (np. Pn-Pt_8-16): ");
         scanf("%s", nowy->hours);
 
+        // Dołączenie na koniec listy
         if (*head == NULL) {
             *head = nowy;
         } else {
@@ -133,7 +185,13 @@ void add_lekarz(Lekarz **head) {
     }
 }
 
-
+/**
+ * @brief Wyszukuje lekarza po numerze PESEL i umożliwia edycję jego danych.
+ * * Po znalezieniu rekordu wyświetla wszystkie szczegóły i uruchamia
+ * interaktywne menu pozwalające na aktualizację wybranych pól struktury.
+ * Zmiana ID jest opatrzona dodatkowym potwierdzeniem.
+ * * @param head Podwójny wskaźnik na początek listy.
+ */
 void search_lekarz(Lekarz **head) {
     if (*head == NULL) {
         printf("Baza pusta;\n");
@@ -239,6 +297,13 @@ void search_lekarz(Lekarz **head) {
 
 }
 
+/**
+ * @brief Usuwa lekarza z listy na podstawie podanego identyfikatora ID.
+ * * Implementacja korzysta z techniki dwóch wskaźników (current i prev),
+ * co pozwala na przepięcie listy i bezpieczne zwolnienie pamięci usuwanego węzła.
+ * Funkcja obsługuje również przypadek usunięcia pierwszego elementu.
+ * * @param head Podwójny wskaźnik na początek listy.
+ */
 void delete_lekarz(Lekarz **head) {
     if (*head == NULL) {
         printf("Baza pusta;\n");
@@ -248,27 +313,34 @@ void delete_lekarz(Lekarz **head) {
     printf("Usuwanie lekarza\n");
     printf("Podaj id lekarza do usuniecia:\n");
     scanf("%d", &target_id);
+
     Lekarz *current = *head;
     Lekarz *prev = NULL;
+
+    // Obsługa przypadku, gdy usuwanym elementem jest głowa listy
     if (current != NULL && current->id == target_id) {
         *head = current->next;
         free(current);
         printf("Lekarz o id %d zostal usuniety\n", target_id);
         return;
     }
+
+    // Szukanie węzła w środku lub na końcu listy
     while (current != NULL && current->id != target_id) {
         prev = current;
         current = current->next;
     }
+
+    // Przypadek nieznalezienia ID
     if (current == NULL) {
         printf("Lekarza o takim id nie odnaleziono\n");
         return;
     }
+
+    // Usunięcie wybranego węzła i przepięcie wskaźnika next w elemencie poprzednim
     if (current != NULL && current->id == target_id) {
         prev->next = current->next;
         free(current);
     }
     printf("Lekarz o id %d zostal usuniety\n", target_id);
 }
-
-

@@ -1,5 +1,19 @@
+/**
+ * @file wizyta.c
+ * @brief Implementacja systemu rezerwacji i zarządzania wizytami.
+ * * Plik zawiera pełną logikę biznesową przychodni: sprawdzanie dostępności lekarzy,
+ * walidację istnienia pacjentów, wykrywanie konfliktów czasowych w grafiku
+ * oraz zaawansowane filtrowanie i wyszukiwanie wizyt.
+ */
+
 #include "wizyta.h"
 
+/**
+ * @brief Wyświetla listę wszystkich zarejestrowanych wizyt.
+ * * Przechodzi przez listę jednokierunkową od podanej głowy i wypisuje
+ * podstawowe informacje o każdej wizycie (ID, powiązania z pacjentem i lekarzem, data, czas, status).
+ * * @param head Wskaźnik na początek listy wizyt.
+ */
 void print_wizyty(Wizyty *head) {
     Wizyty *current = head;
     if (current == NULL) {
@@ -12,6 +26,20 @@ void print_wizyty(Wizyty *head) {
         current = current->next;
     }
 }
+
+/**
+ * @brief Dodaje nową wizytę z automatycznym sprawdzaniem kolizji czasowych.
+ * * @details Funkcja wykonuje proces rezerwacji w kilku krokach:
+ * 1. Pobiera ID pacjenta i weryfikuje jego istnienie w bazie.
+ * 2. Pobiera ID lekarza i weryfikuje jego istnienie w bazie.
+ * 3. Pobiera dane o dacie, czasie rozpoczęcia i przewidywanym czasie trwania wizyty.
+ * 4. Uruchamia algorytm wykrywania konfliktów: przelicza godziny na minuty i sprawdza
+ * nakładanie się przedziałów czasowych z już istniejącymi wizytami u danego lekarza w tym dniu.
+ * 5. Jeśli brakuje konfliktów, alokuje pamięć, nadaje nowe ID i dodaje wizytę na koniec listy.
+ * * @param head Podwójny wskaźnik na początek listy wizyt.
+ * @param head_l Wskaźnik na początek listy lekarzy (do walidacji).
+ * @param head_p Wskaźnik na początek listy pacjentów (do walidacji).
+ */
 void add_wizyta(Wizyty **head, Lekarz *head_l, Pacjent *head_p) {
     int target_l, target_p;
     bool p_found = false, l_found = false;
@@ -120,6 +148,13 @@ void add_wizyta(Wizyty **head, Lekarz *head_l, Pacjent *head_p) {
     printf("Wizyta o id %d dodana (Status: Zaplanowana)\n", nowy->id);
 }
 
+/**
+ * @brief Zaawansowane filtrowanie wizyt według wielu kryteriów.
+ * * @details Pozwala na przeglądanie wizyt przypisanych do konkretnego lekarza lub pacjenta.
+ * Oferuje dodatkową możliwość zawężenia wyników do określonej daty lub statusu wizyty.
+ * Zastosowano logikę dopasowania (`match`), która ułatwia rozbudowę o kolejne filtry.
+ * * @param head Podwójny wskaźnik na początek listy wizyt.
+ */
 void filtry_wizyt(Wizyty **head) {
     if (*head == NULL) {
         printf("Baza pusta\n");
@@ -192,6 +227,14 @@ void filtry_wizyt(Wizyty **head) {
         printf("Nie odnaleziono wizyt spelniajacych podane kryteria.\n");
     }
 }
+
+/**
+ * @brief Wyszukuje konkretną wizytę i umożliwia pełną edycję jej danych.
+ * * @details Wyszukuje po kombinacji daty oraz czasu wizyty. Po znalezieniu rekordu
+ * użytkownik może wywołać interaktywne menu umożliwiające edycję powiązań (ID pacjenta/lekarza),
+ * daty, czasu, czasu trwania oraz statusu rezerwacji.
+ * * @param head Podwójny wskaźnik na początek listy wizyt.
+ */
 void search_wizyt(Wizyty **head) {
     if (*head == NULL) {
         printf("Baza pusta;\n");
@@ -286,6 +329,12 @@ void search_wizyt(Wizyty **head) {
     }
 }
 
+/**
+ * @brief Usuwa zaplanowaną wizytę z systemu na podstawie jej identyfikatora.
+ * * Implementacja bezpiecznie odpina węzeł wizyty z listy jednokierunkowej,
+ * zwalniając odpowiednio przypisaną do niej pamięć dynamiczną.
+ * * @param head Podwójny wskaźnik na początek listy wizyt.
+ */
 void delete_wizyta(Wizyty **head) {
     if (*head == NULL) {
         printf("Baza pusta;\n");
