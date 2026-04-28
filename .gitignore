@@ -1,15 +1,14 @@
-# Скомпилированные файлы CMake и мусор IDE
+
 cmake-build-debug/
 .idea/
 *.o
 *.exe
 
-# Текстовые базы данных
+
 lekarze.txt
 pacjenci.txt
 wizyty.txt
 
-# Сгенерированная документация Doxygen
 html/
 latex/
 Doxyfile.bak
