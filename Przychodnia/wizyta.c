@@ -299,20 +299,43 @@ void search_wizyt(Wizyty **head) {
                             break;
                         case 4:
                             printf("Wprowadz nowa date:\n");
-                            scanf("%s", current->date);
+                            scanf("%10s", current->date);
                             break;
                         case 5:
                             printf("Wprowadz nowy czas:\n");
-                            scanf("%s", current->time);
+                            scanf("%5s", current->time);
                             break;
-                        case 6:
-                            printf("Wprowadz nowa trwalosc:\n");
-                            scanf("%d", &current->duration);
+                        case 6: {
+                            int temp_duration;
+                            printf("Wprowadz nowa trwalosc (wiecej niz 0 minut):\n");
+                            while (1) {
+                                if (scanf("%d", &temp_duration) == 1 && temp_duration > 0) {
+                                    current->duration = temp_duration;
+                                    break;
+                                }
+                                else
+                                    {
+                                    printf("Bledna wartosc! Czas trwania musi byc liczba dodatnia. Sprobuj ponownie:\n");
+                                    while (getchar() != '\n');
+                                }
+                            }
                             break;
-                        case 7:
-                            printf("Wprowadz nowy status:\n");
-                            scanf("%d", &current->status);
+                        }
+                        case 7: {
+                            int temp_status;
+                            printf("Wprowadz nowy status (0 - zaplanowana, 1 - odbyta, 2 - odwolana):\n");
+                            while (1) {
+                                if (scanf("%d", &temp_status) == 1 && temp_status >= 0 && temp_status <= 2) {
+                                    current->status = temp_status;
+                                    break;
+                                    break;
+                                } else {
+                                    printf("Bledna wartosc! Status musi byc od 0 do 2. Sprobuj ponownie:\n");
+                                    while (getchar() != '\n');
+                                }
+                            }
                             break;
+                        }
                         case 0:
                             printf("Zakonczono edycje.\n");
                             break;
